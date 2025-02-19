@@ -4,7 +4,7 @@ let promises = [1, 2, 3].map(i => new Promise(resolve => {
   setTimeout(() => resolve({name: `Promise ${i}`, time}), time * 1000);
 }));
 
-Promise.all(promises).then(results) => {
+Promise.all(promises).then(results => {
   let output = document.getElementById('output');
   output.innerHTML = ''; // Clear the "Loading..." row
 
@@ -12,7 +12,7 @@ Promise.all(promises).then(results) => {
   let totalTime = results.reduce((sum, result) => sum + result.time, 0);
 
   // Populate the table with each promise result
-  results.forEach(result) => {
+  results.forEach(result => {
     output.innerHTML += `<tr><td>${result.name}</td><td>${result.time.toFixed(3)}</td></tr>`;
   });
 
