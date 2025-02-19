@@ -9,13 +9,14 @@ Promise.all(promises).then(results => {
   output.innerHTML = ''; // Clear the "Loading..." row
 
   // Calculate the total time (sum of all promise times)
-  let totalTime = results.reduce((sum, result) => sum + result.time, 0);
+  let maxTime = Math.max(...results.map(result => result.time));
 
   // Populate the table with each promise result
   results.forEach(result => {
     output.innerHTML += `<tr><td>${result.name}</td><td>${result.time.toFixed(3)}</td></tr>`;
+	  
   });
 
   // Add the total row with the correct sum
-  output.innerHTML += `<tr><td>Total</td><td>${totalTime.toFixed(3)}</td></tr>`;
+  output.innerHTML += `<tr><td>Total</td><td>${maxTime.toFixed(3)}</td></tr>`;
 });
