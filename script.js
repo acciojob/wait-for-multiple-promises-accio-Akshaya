@@ -1,33 +1,21 @@
-document.addEventListener("DOMContentLoaded",()=>{
-	const output = document.getElementById("output");
+Step 1: Create the promises
+let promises = [1, 2, 3].map(i => new Promise(resolve => {
+  let time = Math.random() * 2 + 1; // random time between 1 and 3 seconds
+  setTimeout(() => resolve({name: `Promise ${i}`, time}), time * 1000);
+}));
 
-	output.innerHTML = `<tr><td colspan = "2">Loading...</td></tr>`;
-
-	function createPromise(index){
-		return new Promise((resolve,reject)=>{
-			const timeTaken = (Math.random()*2+1).toFixed(3);
-			setTimeout(()=>{
-				resolve({PromiseName:`Promise ${index}`,Timetaken: parseFloat (timeTaken)}),timeTaken * 1000);
-		
-		});
-	}
-const Promises =[createPromise(1),createPromise(2),createPromise(3)];	
-Promise.all(Promises).then((result)=>{
-	output.innerHTML ="";
-
-	let maxTime = 0;
-
-	result.forEach(({PromiseName,Timetaken})=>{
-		output.innerHTML +=`<tr><td>${PromiseName}</td><td>${Timetaken.toFixed(3)}</td></tr>`;
-		if(time > maxTime) maxTime = time;
-	});
-
-	output.innerHTML += `<tr><td>Total</td><td>${maxTime.toFixed(3)}</td></tr>`;
-	
+// Step 2: Wait for all promises to resolve
+Promise.all(promises).then(results => {
+  // Step 3: Populate the table
+  let output = document.getElementById('output');
+  output.innerHTML = ''; // remove "Loading..." row
+  
+  // Step 4: Calculate the total time
+  let maxTime = Math.max(...results.map(result => result.time));
+  
+  // Step 5: Update the HTML
+  results.forEach(result => {
+    output.innerHTML += `<tr><td>${result.name}</td><td>${result.time.toFixed(3)}</td></tr>`;
   });
-});		
-		
-		
-
-
-						   
+  output.innerHTML += `<tr><td>Total</td><td>${maxTime.toFixed(3)}</td></tr>`;
+});
